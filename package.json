@@ -1,6 +1,6 @@
 {
   "name": "lucide-omi",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Lucide icons for Omi",
   "scripts": {
     "gen": "node ./scripts/generate-icons.js",
@@ -11,8 +11,8 @@
     "url": "git+https://github.com/omijs/lucide-omi.git"
   },
   "author": "dntzhang",
-  "main": "dist/index.js",
-  "module": "dist/index.js",
+  "main": "index.js",
+  "module": "index.js",
   "typings": "dist/lucide-omi.d.ts",
   "sideEffects": false,
   "license": "MIT",

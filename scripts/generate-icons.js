@@ -11,6 +11,7 @@ if (!fs.existsSync(folderPath)) {
 const svgDir = 'icons'
 const iconDir = 'dist/icons'
 const indexFile = 'dist/index.js'
+const iconIndexFile = 'dist/icons/index.js'
 
 fs.writeFileSync('dist/createLucideIcon.js', fs.readFileSync('src/createLucideIcon.js', 'utf8'), 'utf8')
 fs.writeFileSync('dist/defaultAttributes.js', fs.readFileSync('src/defaultAttributes.js', 'utf8'), 'utf8')
@@ -30,19 +31,29 @@ fs.readdir(svgDir, (err, files) => {
   }
 
   let exports = ''
+  let iconExports = ''
 
   // 遍历 SVG 文件
   files.forEach((file) => {
     if (path.extname(file) === '.svg') {
       const iconName = path.basename(file, '.svg')
-      exports += `export { default as Icon${removeDashAndCapitalize(
-        iconName
-      )} } from './icons/${iconName}'\n`
+      exports += `export { default as ${removeDashAndCapitalize(iconName)}, default as ${removeDashAndCapitalize(iconName)}Icon, default as Lucide${removeDashAndCapitalize(iconName)} } from './icons/${iconName}.js'\n`
+      iconExports += `export { default as ${removeDashAndCapitalize(iconName)} } from './${iconName}.js'\n`
     }
   })
 
   // 将所有 SVG 内容写入 index.ts 文件
-  fs.writeFileSync(indexFile, exports)
+  fs.writeFileSync(indexFile,
+    `import * as index from './icons/index.js';
+export { index as icons };
+    
+${exports}
+
+export { default as createLucideIcon } from './createLucideIcon.js';
+`
+  )
+
+  fs.writeFileSync(iconIndexFile, iconExports)
 })
 
 // 确保 icons 目录存在
