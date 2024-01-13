@@ -1,0 +1,35 @@
+{
+  "name": "lucide-omi",
+  "version": "0.0.0",
+  "description": "Lucide icons for Omi",
+  "scripts": {
+    "gen": "node ./scripts/generate-icons.js",
+    "lint": "eslint 'scripts/**/*.{js,ts,tsx,jsx}' --fix"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/omijs/lucide-omi.git"
+  },
+  "author": "dntzhang",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "typings": "dist/lucide-omi.d.ts",
+  "sideEffects": false,
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/omijs/lucide-omi/issues"
+  },
+  "homepage": "https://github.com/omijs/lucide-omi#readme",
+  "dependencies": {
+    "omi": "latest"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.23.2",
+    "@babel/plugin-transform-react-jsx": "^7.22.15",
+    "@typescript-eslint/parser": "^6.8.0",
+    "eslint": "^8.51.0",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-prettier": "^5.0.1",
+    "prettier": "^3.0.3"
+  }
+}
