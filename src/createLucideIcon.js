@@ -9,8 +9,21 @@ import { h } from 'omi';
 import defaultAttributes from './defaultAttributes.js';
 
 const toKebabCase = (string) => string.replace(/([a-z0-9])([A-Z])/g, "$1-$2").toLowerCase().trim();
+
+const handleAttributes = (attrs) => {
+  const newAttrs = {};
+  for (let key in attrs) {
+    newAttrs[key] = attrs[key];
+    if (/[A-Z]/.test(key)) {
+      newAttrs[toKebabCase(key)] = attrs[key];
+    }
+  }
+  return newAttrs;
+};
+
 const createLucideIcon = (iconName, iconNode) => {
   const Component = ({ color = "currentColor", size = 24, strokeWidth = 2, absoluteStrokeWidth, className = "", children, ...rest }) => {
+    const handledRest = handleAttributes(rest);
     return h(
       "svg",
       {
@@ -18,9 +31,9 @@ const createLucideIcon = (iconName, iconNode) => {
         width: size,
         height: size,
         stroke: color,
-        strokeWidth: absoluteStrokeWidth ? Number(strokeWidth) * 24 / Number(size) : strokeWidth,
+        'stroke-width': absoluteStrokeWidth ? Number(strokeWidth) * 24 / Number(size) : strokeWidth,
         className: ["lucide", `lucide-${toKebabCase(iconName)}`, className].join(" "),
-        ...rest
+        ...handledRest
       },
       [
         ...iconNode.map(([tag, attrs]) => h(tag, attrs)),
