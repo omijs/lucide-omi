@@ -1,10 +1,10 @@
 {
   "name": "lucide-omi",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Lucide icons for Omi",
   "scripts": {
     "gen": "node ./scripts/generate-icons.js",
-    "lint": "eslint 'scripts/**/*.{js,ts,tsx,jsx}' --fix"
+    "lint": "eslint 'scripts/**/*.{js}' --fix"
   },
   "repository": {
     "type": "git",
@@ -30,6 +30,7 @@
     "eslint": "^8.51.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-prettier": "^5.0.1",
+    "jsdom": "^23.2.0",
     "prettier": "^3.0.3"
   }
 }

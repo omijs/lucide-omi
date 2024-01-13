@@ -1,6 +1,6 @@
 const fs = require('fs')
 const path = require('path')
-const transform = require('./convert-svg-to-omi')
+const { JSDOM } = require("jsdom")
 
 const folderPath = 'dist'
 if (!fs.existsSync(folderPath)) {
@@ -82,12 +82,7 @@ fs.readdir(svgDir, (err, files) => {
       // 创建 Omi icon 元素
       const iconComponent = `import createLucideIcon from '../createLucideIcon.js';
  
-const ${removeDashAndCapitalize(iconName)} = createLucideIcon("ALargeSmall", [
-  ["path", { d: "M21 14h-5", key: "1vh23k" }],
-  ["path", { d: "M16 16v-3.5a2.5 2.5 0 0 1 5 0V16", key: "1wh10o" }],
-  ["path", { d: "M4.5 13h6", key: "dfilno" }],
-  ["path", { d: "m3 16 4.5-9 4.5 9", key: "2dxa0e" }]
-]);
+const ${removeDashAndCapitalize(iconName)} = createLucideIcon("${removeDashAndCapitalize(iconName)}", ${svgToArray(svgContent)});
 
 export { ${removeDashAndCapitalize(iconName)} as default };
 `
@@ -114,16 +109,7 @@ export { ${removeDashAndCapitalize(iconName)} as default };
   fs.writeFileSync('index.html', html)
 })
 
-function transformSvgContent(svgContent) {
-  return svgContent.replace(
-    /<svg width="\d{2}" height="\d{2}"/,
-    `<svg 
-  class={iconClassName} 
-  width={flag ? '24' : props.size}
-  height={flag ? '24' : props.size}
-  style={iconStyle}`
-  )
-}
+
 
 function removeDashAndCapitalize(str) {
   const words = str.split('-')
@@ -133,4 +119,24 @@ function removeDashAndCapitalize(str) {
     return firstLetter + restOfWord
   })
   return capitalizedWords.join('')
+}
+
+
+function svgToArray(svgString) {
+  const dom = new JSDOM(svgString)
+  const svgDoc = dom.window.document.querySelector("svg")
+  const elements = svgDoc.querySelectorAll("*")
+  const result = []
+
+  elements.forEach((element) => {
+    const tagName = element.tagName
+    const attributes = {}
+
+    for (const attr of element.attributes) {
+      attributes[attr.name] = attr.value
+    }
+
+    result.push([tagName, attributes])
+  })
+  return JSON.stringify(result)
 }
