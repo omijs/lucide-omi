@@ -15,7 +15,7 @@ const iconIndexFile = 'dist/icons/index.js'
 
 fs.writeFileSync('dist/createLucideIcon.js', fs.readFileSync('src/createLucideIcon.js', 'utf8'), 'utf8')
 fs.writeFileSync('dist/defaultAttributes.js', fs.readFileSync('src/defaultAttributes.js', 'utf8'), 'utf8')
-
+fs.writeFileSync('dist/lucide-omi.d.ts', fs.readFileSync('src/lucide-omi.d.ts', 'utf8'), 'utf8')
 
 const jsonData = fs.readFileSync('package.json', 'utf8')
 fs.writeFileSync('dist/package.json', jsonData, 'utf8')
